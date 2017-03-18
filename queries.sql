@@ -1,0 +1,22 @@
+CREATE DATABASE twitter;
+
+USE twitter;
+
+CREATE TABLE Users
+(
+  id INT AUTO_INCREMENT,
+  username VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  hash_pass VARCHAR(60) NOT NULL,
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE Tweets
+(
+  id INT AUTO_INCREMENT,
+  user_id INT NOT NULL,
+  text TEXT NOT NULL,
+  creation_date DATE NOT NULL,
+  PRIMARY KEY(id),
+  FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE CASCADE
+);
