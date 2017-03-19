@@ -46,11 +46,11 @@ class User {
     }
 
     public function saveToDB(PDO $conn) {
+       
         if ($this->id == self::NON_EXISTING_ID) {
+
             //Saving new user to DB
-            $stmt = $conn->prepare(
-                    'INSERT INTO Users(username, email, hash_pass) VALUES (:username, :email, :pass)'
-            );
+            $stmt = $conn->prepare('INSERT INTO Users(username, email, hash_pass) VALUES (:username, :email, :pass)');
             $result = $stmt->execute([
                 'username' => $this->username,
                 'email' => $this->email,

@@ -11,12 +11,13 @@ CREATE TABLE Users
   PRIMARY KEY(id)
 );
 
+//Użytkownik może mieć wiele wpisów, wpis może mieć tylko jednego Usera.
 CREATE TABLE Tweets
 (
   id INT AUTO_INCREMENT,
   user_id INT NOT NULL,
   text TEXT NOT NULL,
-  creation_date DATE NOT NULL,
+  creation_date TEXT NOT NULL,
   PRIMARY KEY(id),
   FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE CASCADE
 );

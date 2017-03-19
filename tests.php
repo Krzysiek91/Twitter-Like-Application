@@ -5,13 +5,18 @@ require 'src/User.php';
 
 // TESTY komunikacji z bazą danych:)
 
-//$user = new User();
+$user = new User();
 
-//$user->setUsername('Pudzianowski');
-//
-//$user->setPass('asdfg');
+$user->setUsername('MariuszPudzianowski');
 
-//$user->saveToDB($conn);
+$user->setPass('asdfg');
+
+$user->setEmail('asdfg@wp.pl');
+
+$user->saveToDB($conn);
+
+var_dump($user);
+
 
 //$user->setUsername('krzysiek');
 
@@ -27,10 +32,11 @@ require 'src/User.php';
 //$user->setEmail('mario@wp.pl');
 //$user->setPass('dupa');
 
-$user = User::loadUserById($conn, 21);
+//$user = User::loadUserById($conn, 21);
 
-$user -> delete($conn);
+//$user -> delete($conn);
 
 //$user->saveToDB($conn);
 
-var_dump($user);
+//var_dump($user);
+

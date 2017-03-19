@@ -1,18 +1,16 @@
-
 <?php
 
 class Tweet {
 
-    private $name;
-    private $userID; //przypisana wartosc domyslna
+    const NON_EXISTING_ID = -1;
+
+    private $id = self::NON_EXISTING_ID;
+    private $userId;
     private $text;
     private $creationDate;
 
     public function __construct() {
-        $this->userID = -1;
-        $this->name = null;
-        $this->text = null;
-        $this->creationDate = null;
+        
     }
 
     static public function loadTweetById(PDO $conn, $id) {
@@ -36,9 +34,7 @@ class Tweet {
     }
 
     static public function loadAllTweetsByUserId(PDO $conn, $userId) {
-        //desc, aby mieć od najnowszego tweet'a
-        $sql = "SELECT id FROM Tweets WHERE user_id = :user_id ORDER BY id DESC";
-        //$sql = "SELECT * FROM Tweets WHERE user_id = :user_id";
+        $sql = "SELECT * FROM Tweets WHERE user_id = :user_id ORDER BY id DESC";
 
         $stmt = $conn->prepare($sql);
         $stmt->execute([
@@ -71,15 +67,14 @@ class Tweet {
                 $ret[] = $loadedTweet;
             }
         }
+
         return $ret;
     }
 
     public function saveToDB(PDO $conn) {
         if ($this->id == self::NON_EXISTING_ID) {
             //Saving new user to DB
-            $stmt = $conn->prepare(
-                    'INSERT INTO Tweets(user_id, text, creation_date) VALUES (:user_id, :text, :creation_date)'
-            );
+            $stmt = $conn->prepare('INSERT INTO Tweets(user_id, text, creation_date) VALUES(:user_id, :text, :creation_date)');
             $result = $stmt->execute([
                 'user_id' => $this->userId,
                 'text' => $this->text,
@@ -132,8 +127,8 @@ class Tweet {
         return $this->name;
     }
 
-    public function getUserID() {
-        return $this->userID;
+    public function getUserId() {
+        return $this->userId;
     }
 
     public function getText() {
@@ -154,6 +149,10 @@ class Tweet {
 
     public function setCreationDate($creationDate) {
         $this->creationDate = $creationDate;
+    }
+
+    function setUserId($userId) {
+        $this->userId = $userId;
     }
 
 }
