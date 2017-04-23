@@ -1,17 +1,16 @@
-
 <?php
 
 class User {
 
     const NON_EXISTING_ID = -1;
 
-    private $id = self:: NON_EXISTING_ID;
+    private $id;
     private $username;
     private $email;
     private $hashPass;
 
-    public function __constructor() {
-        $this->id = -1;
+    public function __construct() {
+        $this->id = self::NON_EXISTING_ID;
         $this->username = "";
         $this->email = "";
         $this->hashPass = "";
@@ -45,8 +44,8 @@ class User {
         $this->hashPass = password_hash($pass, PASSWORD_BCRYPT);
     }
 
-    public function saveToDB(PDO $conn) {
-       
+    public function saveToDB(PDO $conn)
+    {
         if ($this->id == self::NON_EXISTING_ID) {
 
             //Saving new user to DB
@@ -83,7 +82,8 @@ class User {
         return false;
     }
 
-    static public function loadUserById(PDO $conn, $id) {
+    static public function loadUserById(PDO $conn, $id)
+    {
         $stmt = $conn->prepare('SELECT * FROM Users WHERE id=:id');
         $result = $stmt->execute(['id' => $id]);
 
@@ -96,20 +96,47 @@ class User {
             $loadedUser->username = $row['username'];
             $loadedUser->hashPass = $row['hash_pass'];
             $loadedUser->email = $row['email'];
-
             return $loadedUser;
         }
 
         return null;
     }
 
-    static public function loadAllUsers(PDO $conn) {
+    static public function loadUserByEmail(PDO $conn, $email)
+    {
+        $stmt = $conn->prepare('SELECT * FROM Users WHERE email=:email');
+        $result = $stmt->execute(['email' => $email]);
+
+        if ($result === true && $stmt->rowCount() > 0) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $loadedUser = new User();
+
+            $loadedUser->id = $row['id'];
+            $loadedUser->username = $row['username'];
+            $loadedUser->hashPass = $row['hash_pass'];
+            $loadedUser->email = $row['email'];
+            return $loadedUser;
+        }
+
+        return null;
+    }
+
+
+
+
+
+
+
+    static public function loadAllUsers(PDO $conn)
+    {
         $sql = "SELECT * FROM Users";
         $ret = [];
 
         $result = $conn->query($sql);
 
         if ($result !== false && $result->rowCount() != 0) {
+
             foreach ($result as $row) {
 
                 $loadedUser = new User();
@@ -123,6 +150,7 @@ class User {
 
         return $ret;
     }
+
 
     public function delete(PDO $conn) {
         if ($this->id != self::NON_EXISTING_ID) {
@@ -142,3 +170,5 @@ class User {
     }
 
 }
+
+

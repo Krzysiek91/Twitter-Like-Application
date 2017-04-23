@@ -4,16 +4,63 @@ class Tweet {
 
     const NON_EXISTING_ID = -1;
 
-    private $id = self::NON_EXISTING_ID;
+    private $id;
     private $userId;
     private $text;
     private $creationDate;
 
-    public function __construct() {
-        
+    public function __construct()
+    {
+        $this->id = self::NON_EXISTING_ID;
+        $this->userId = self::NON_EXISTING_ID;
+        $this->text = '';
+        $this->creationDate = (date('Y-m-d H:i:S'));
     }
 
-    static public function loadTweetById(PDO $conn, $id) {
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+    }
+
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+    }
+
+
+    static public function loadTweetById(PDO $conn, $id)
+    {
         $stmt = $conn->prepare('SELECT * FROM Tweets WHERE id=:id');
         $result = $stmt->execute(['id' => $id]);
 
@@ -33,30 +80,49 @@ class Tweet {
         return null;
     }
 
-    static public function loadAllTweetsByUserId(PDO $conn, $userId) {
+
+
+    static public function loadAllTweetsByUserId(PDO $conn, $userId)
+    {
         $sql = "SELECT * FROM Tweets WHERE user_id = :user_id ORDER BY id DESC";
 
         $stmt = $conn->prepare($sql);
-        $stmt->execute([
+
+        $result = $stmt->execute([
             'user_id' => $userId
         ]);
-        $result = [];
 
-        foreach ($stmt->fetch(PDO::FETCH_ASSOC) as $row) {
-            $result[] = self::loadTweetById($row['id']);
-        }
-
-        return $result;
-    }
-
-    static public function loadAllTweets(PDO $conn) {
-        $sql = "SELECT * FROM Tweets ORDER BY id DESC";
         $ret = [];
 
+        if ($result !== false && $stmt->rowCount() != 0) {
+
+            $arrayOfTweets = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($arrayOfTweets as $row) {
+                $loadTweet = new Tweet();
+                $loadTweet->id = $row['id'];
+                $loadTweet->userId = $row['user_id'];
+                $loadTweet->text = $row['text'];
+                $loadTweet->creationDate = $row['creation_date'];
+
+                $ret[] = $loadTweet;
+            }
+
+            return $ret;
+        }
+    }
+
+
+
+    static public function loadAllTweets(PDO $conn)
+    {
+        $sql = "SELECT * FROM Tweets ORDER BY id DESC";
+        $ret = [];
         $result = $conn->query($sql);
 
         if ($result !== false && $result->rowCount() != 0) {
             foreach ($result as $row) {
+
                 $loadedTweet = new Tweet();
 
                 $loadedTweet->id = $row['id'];
@@ -71,10 +137,14 @@ class Tweet {
         return $ret;
     }
 
-    public function saveToDB(PDO $conn) {
+
+
+    public function saveToDB(PDO $conn)
+    {
         if ($this->id == self::NON_EXISTING_ID) {
             //Saving new user to DB
             $stmt = $conn->prepare('INSERT INTO Tweets(user_id, text, creation_date) VALUES(:user_id, :text, :creation_date)');
+
             $result = $stmt->execute([
                 'user_id' => $this->userId,
                 'text' => $this->text,
@@ -83,7 +153,6 @@ class Tweet {
 
             if ($result !== false) {
                 $this->id = $conn->lastInsertId();
-
                 return true;
             }
         } else {
@@ -95,7 +164,8 @@ class Tweet {
             $result = $stmt->execute([
                 'user_id' => $this->userId,
                 'text' => $this->text,
-                'creation_date' => $this->creationDate
+                'creation_date' => $this->creationDate,
+                'id' => $this->id
             ]);
 
             if ($result === true) {
@@ -106,7 +176,10 @@ class Tweet {
         return false;
     }
 
-    public function delete(PDO $conn) {
+
+
+    public function delete(PDO $conn)
+    {
         if ($this->id != self::NON_EXISTING_ID) {
             $stmt = $conn->prepare('DELETE FROM Tweets WHERE id=:id');
             $result = $stmt->execute(['id' => $this->id]);
@@ -121,38 +194,6 @@ class Tweet {
         }
 
         return true;
-    }
-
-    public function getName() {
-        return $this->name;
-    }
-
-    public function getUserId() {
-        return $this->userId;
-    }
-
-    public function getText() {
-        return $this->text;
-    }
-
-    public function getCreationDate() {
-        return $this->creationDate;
-    }
-
-    public function setName($name) {
-        $this->name = $name;
-    }
-
-    public function setText($text) {
-        $this->text = $text;
-    }
-
-    public function setCreationDate($creationDate) {
-        $this->creationDate = $creationDate;
-    }
-
-    function setUserId($userId) {
-        $this->userId = $userId;
     }
 
 }

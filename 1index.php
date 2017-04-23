@@ -1,25 +1,25 @@
 <?php
+session_start();
+if(
+        isset($_SESSION['userID'])
+)
+
+
+
 require 'connection.php';
 require 'src/Tweet.php';
-
+require 'src/User.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if(isset($_POST['text'])) {
 
-    $tweet = new Tweet();
-    $tweet->setUserId(1); //docelowo id prawdziwego usera z sesji
-    $tweet->setText($_POST['text']);
-    $tweet->setCreationDate(date('Y-m-d H:i:s'));
+        $tweet = new Tweet();
+        $tweet->setUserId($_SESSION['userID']); //docelowo id prawdziwego usera z sesji
+        $tweet->setText($_POST['text']);
+        $tweet->setCreationDate(date('Y-m-d H:i:s'));
 
-
-
-    var_dump($tweet->getUserId());
-    var_dump($tweet->getText());
-    var_dump($tweet->getCreationDate());
-
-
-    $tweet->saveToDB($conn);
-    //var_dump($tweet);
-    $tweets = Tweet::loadAllTweets($conn);
+        $tweet->saveToDB($conn);
+    }
 }
 ?>
 
@@ -42,8 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
 
         <h3>Latest Tweets</h3>
+
         <?php
-        foreach ($tweets as $tweet) {
+        $Alltweets = Tweet::loadAllTweets($conn);
+
+        foreach ($Alltweets as $tweet) {
+            $currentUserObject = User::loadUserById($conn, $tweet->getUserId());
+            $currentUserName = $currentUserObject->getUsername();
+            echo $currentUserName . ': <br>';
             echo $tweet->getText();
             echo '<br />';
             echo '<small>' . $tweet->getCreationDate() . '</small>';
@@ -57,6 +63,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 <?php
+
+
+//////////////////////// add user
+
+   // $user1 = new User();
+
+   // var_dump($user1);
+
+   //  $user1->setUsername('Romek');
+   // $user1->setPass('qwer');
+   // $user1->setEmail('wq@example.com');
+
+   // var_dump($user1);
+
+   // $user1->saveToDB($conn);
+
+   // var_dump($user1);
+
+
+////////////////////// add tweet
+
+// $tweet = new Tweet();
+// $tweet->setUserId(1);
+// $tweet->setText('siemka');
+// $tweet->setCreationDate(date('Y-m-d H:i:s'));
+
+// $tweet->saveToDB($conn);
+
+// var_dump($tweet);
+
+
+/////////////////////// load tweet by ID
+
+//    $loadTweet = Tweet::loadTweetById($conn, 6);
+
+//    var_dump($loadTweet);
+
+
+
+/////////////////////// load All Tweets By UserId
+
+//    $loadAlBuUserId = Tweet::loadAllTweetsByUserId($conn, 2);
+//    var_dump($loadAlBuUserId);
+
+
+/////////////////////// load All Tweets
+
+ //   $loadAllUsers = Tweet::loadAllTweets($conn);
+ //   var_dump($loadAllUsers);
+
+
+     ///////////////// load by Email
+
+//    $loadByEmail = User::loadUserByEmail($conn, 'k@example.com');
+//    var_dump($loadByEmail);
+
+    ///////////////////deleting tweet
+
+ //       $loadTweet = Tweet::loadTweetById($conn, 6);
+
+ //        $loadTweet->delete($conn);
+
+
 
 /*
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

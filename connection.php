@@ -1,11 +1,8 @@
 <?php
-
 $user = 'root';
 $password = 'coderslab';
 $dbname = 'twitter';
 $dsn = "mysql:host=127.0.0.1; dbname=$dbname; charset=utf8";
-
-
 
 $conn = new PDO($dsn, $user, $password);
 
