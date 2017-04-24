@@ -1,9 +1,18 @@
 <?php
 session_start();
 if(
-        isset($_SESSION['userID'])
-)
-
+        isset($_SESSION['userID'])&&
+        isset($_SESSION['userName'])&&
+        isset($_SESSION['userEmail'])
+){
+    $userID = $_SESSION['userID'];
+    $userName = $_SESSION['userName'];
+    $userEmail = $_SESSION['userEmail'];
+}else{
+    $userID = null;
+    $userName = null;
+    $userEmail = null;
+}
 
 
 require 'connection.php';
@@ -14,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_POST['text'])) {
 
         $tweet = new Tweet();
-        $tweet->setUserId($_SESSION['userID']); //docelowo id prawdziwego usera z sesji
+        $tweet->setUserId($_SESSION['userID']);
         $tweet->setText($_POST['text']);
         $tweet->setCreationDate(date('Y-m-d H:i:s'));
 
@@ -30,9 +39,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
+        <a href="register.php">register</a>
+        <a href="login.php">login</a>
+        <a href="logout.php">logout</a>
         <h1>Twitter-Like Aplication</h1>
-        <h2>WELCOME ON MAIN PAGE</h2>
-
+        <h2>WELCOME ON MAIN PAGE <?php echo $userName?></h2>
         <form action="" method="POST">
 
             <textarea name="text"></textarea><br>

@@ -7,7 +7,7 @@ CREATE TABLE Users
   id INT AUTO_INCREMENT,
   username VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL UNIQUE,
-  hash_pass VARCHAR(60) NOT NULL,
+  hash_pass VARCHAR(60) COLLATE utf8_polish_ci NOT NULL,
   PRIMARY KEY(id)
 );
 

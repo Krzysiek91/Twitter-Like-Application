@@ -44,6 +44,8 @@ class User {
         $this->hashPass = password_hash($pass, PASSWORD_BCRYPT);
     }
 
+
+
     public function saveToDB(PDO $conn)
     {
         if ($this->id == self::NON_EXISTING_ID) {
@@ -121,8 +123,6 @@ class User {
 
         return null;
     }
-
-
 
 
 
