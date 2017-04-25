@@ -17,6 +17,7 @@ if(
 require 'connection.php';
 require 'src/Tweet.php';
 require 'src/User.php';
+require 'src/Comment.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if(isset($_POST['text'])) {
@@ -51,6 +52,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          <?php if($userName!=null) {
              echo '<h3 class="welcome"><kbd>Welcome ' . $userName . ' !</kbd></h3>';
     }
+
+    //test
+         $test = Comment::loadAllCommentsByTweetID($conn, 5);
+         var_dump($test);
          ?>
 
         <form action="" method="POST">

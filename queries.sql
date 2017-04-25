@@ -7,7 +7,7 @@ CREATE TABLE Users
   id INT AUTO_INCREMENT,
   username VARCHAR(255) NOT NULL,
   email VARCHAR(255) NOT NULL UNIQUE,
-  hash_pass VARCHAR(60) COLLATE utf8_polish_ci NOT NULL,
+  hash_pass VARCHAR(60) NOT NULL,
   PRIMARY KEY(id)
 );
 
@@ -21,3 +21,14 @@ CREATE TABLE Tweets
   PRIMARY KEY(id),
   FOREIGN KEY(user_id) REFERENCES Users(id) ON DELETE CASCADE
 );
+
+CREATE TABLE Comments
+(
+id INT AUTO_INCREMENT,
+user_id INT NOT NULL,
+tweet_id INT NOT NULL,
+comment_text TEXT NOT NULL,
+creation_date DATETIME NOT NULL,
+PRIMARY KEY(id),
+FOREIGN KEY (tweet_id) REFERENCES Tweets(id)
+)
