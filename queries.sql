@@ -32,3 +32,16 @@ creation_date DATETIME NOT NULL,
 PRIMARY KEY(id),
 FOREIGN KEY (tweet_id) REFERENCES Tweets(id)
 )
+
+CREATE TABLE MESSAGE
+(
+id INT NOT NULL AUTO_INCREMENT,
+sender_id INT NOT NULL,
+recipient_id INT NOT NULL,
+message_text TEXT,
+is_read TINYINT(4) DEFAULT NULL,
+creation_date DATETIME NOT NULL,
+PRIMARY KEY(id),
+FOREIGN KEY (sender_id) REFERENCES Users(id),
+FOREIGN KEY (recipient_id) REFERENCES Users(id)
+)

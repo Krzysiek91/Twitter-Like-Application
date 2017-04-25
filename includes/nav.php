@@ -10,6 +10,7 @@
                 //logged user may see
                     if($userID!=null){
                        echo '<li><a href="user.php?id=' . $userID . '">Account Info</a></li>';
+                       echo '<li><a href="messages.php?id=' . $userID . '">Messages</a></li>';
                 }
                 ?>
 
