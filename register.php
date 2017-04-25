@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['userName'] = $user->getUsername();
             $_SESSION['userEmail'] = $user->getEmail();
 
-            header('Location: 1index.php');
+            header('Location: index.php');
         }else{
             echo 'Missing or wrong data';
         }
@@ -60,9 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </label>
                         <br>
                         <button type="submit" class="btn btn-default">Register</button>
-                    </form>
-                <p>Already have account? <a href="login.php">Log in here</a></p>
-                <p><a href="1index.php">Return to main page</a></p>
+                    </form><br>
+                <p>Already have account?<br> <a href="login.php">Log in here</a></p>
+                <p><a href="index.php">Return to main page</a></p>
     </div>
 </div>
 </body>

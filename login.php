@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['userName'] = $user->getUsername();
             $_SESSION['userEmail'] = $user->getEmail();
 
-            header('Location: 1index.php');
+            header('Location: index.php');
 
         } else {
             echo 'wrong email or password';
@@ -57,10 +57,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <input type="password" name="password" class="form-control">
                         </label>
                         <br>
-                        <button type="submit" class="btn btn-default">Register</button>
-                    </form>
-                <p>Don't have account yet? <a href="register.php">Register here</a></p>
-                <p><a href="1index.php">Return to main page</a></p>
+                        <button type="submit" class="btn btn-default">Log in</button>
+                    </form><br>
+                <p>Don't have account yet? <br><a href="register.php">Register here</a></p>
+                <p><a href="index.php">Return to main page</a></p>
     </div>
 </div>
 </body>

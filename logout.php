@@ -5,7 +5,7 @@ if(isset($_SESSION['userID'])){
     unset($_SESSION['userName']);
     unset($_SESSION['userEmail']);
 
-    header('Location: 1index.php');
+    header('Location: index.php');
 }else{
-    header('Location: 1index.php');
+    header('Location: index.php');
 }

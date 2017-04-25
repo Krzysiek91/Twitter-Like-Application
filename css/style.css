@@ -1,0 +1,34 @@
+body{
+    background-color: #FF851B;
+}
+
+h1, h2, h3{
+    font-family: Lobster Arial;
+    font-weight: bold;
+    text-align: center;
+}
+
+#latestTweets{
+    margin-top: 30px;
+}
+
+#userInf{
+    margin-bottom: 40px;
+}
+
+.welcome{
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.tweet{
+    background-color: darkgrey;
+    padding: 4px;
+    border-radius: 10px;
+    margin: 8px;
+    border: 2px solid antiquewhite;
+}
+
+#comment{
+    float: right;
+}
