@@ -28,7 +28,6 @@ if(!isset($_SESSION['userID'])){
 
         $message->saveToDB($conn);
 
-        var_dump($message);
         $successMsg = 'Message has benn successfully sent';
 
 
@@ -36,7 +35,6 @@ if(!isset($_SESSION['userID'])){
 
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
