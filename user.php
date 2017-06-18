@@ -3,7 +3,7 @@ session_start();
 if(!isset($_SESSION['userID'])){
     header ('Location: index.php');
 }else{
-    $loggedUserID = $_SESSION['userID'];
+    $userID = $_SESSION['userID'];
 }
 
 
@@ -13,16 +13,16 @@ if(!isset($_SESSION['userID'])){
     require 'src/Message.php';
 
     //These are data of User that we are at page of (not logged one)
-    $userID = $_GET['id'];
-    $user = User::loadUserById($conn, $userID);
-    $userTweets = Tweet::loadAllTweetsByUserId($conn, $userID);
+    $userPageID = $_GET['id'];
+    $user = User::loadUserById($conn, $userPageID);
+    $userTweets = Tweet::loadAllTweetsByUserId($conn, $userPageID);
 
     if($_SERVER['REQUEST_METHOD'] === 'POST')
         if(isset($_POST['message'])){
         $message = new Message;
 
-        $message->setSenderID($loggedUserID);
-        $message->setRecipientID($userID);
+        $message->setSenderID($userID);
+        $message->setRecipientID($userPageID);
         $message->setMessage($_POST['message']);
         $message->setCreationDate(date('Y-m-d H:i:s'));
 

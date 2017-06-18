@@ -35,39 +35,49 @@ if(!isset($_SESSION['userID'])) {
     <?php
     include ('includes/nav.php');
     ?>
-    <div id="receivedMSG">
+    <div id="receivedMSG" class="col-md-4 col-md-offset-4">
         <?php
-          if($receivedMessages != null) {
-              echo '<h3>Received Messages</h3>';
 
-              foreach ($receivedMessages as $message) {
-                  echo '<span class="message-date"><span class="glyphicon glyphicon-calendar"></span> ' . $message->getCreationDate() . '<br>';
-                  echo 'Message from: ' . User::loadUserById($conn, $userID)->getUsername();
-                  echo '<p><em>' . $message->getMessage() . '</p></em>';
+            echo '<h3>Received Messages</h3>';
+
+              if($receivedMessages != null) {
+                  foreach ($receivedMessages as $message) {
+                     echo '<span class="message-date"><span class="glyphicon glyphicon-calendar"></span> ' . $message->getCreationDate() . '<br>';
+                     $senderID = $message->getSenderID();
+                     echo 'Message from: ' .
+
+                          '<a href ="user.php?id=' . $senderID . '">' .
+                          User::loadUserById($conn, $message->getSenderID())->getUsername() .
+                          '</a>';
+
+                     echo '<p><b><em>' . $message->getMessage() . '</em></b></p>';
               }
-          }
+          }else{
+                  echo '<h>You haven\'t received any message</h>';
+              }
 
-          if($sentMessages != null){
               echo '<h3>Sent Messages</h3>';
 
               if($sentMessages != null) {
                   foreach ($sentMessages as $message) {
                       echo '<span class="message-date"><span class="glyphicon glyphicon-calendar"></span> ' . $message->getCreationDate() . '<br>';
-                      echo 'Message to: ' . User::loadUserById($conn, $userID)->getUsername();
-                      echo '<p><em>' . $message->getMessage() . '</p></em>';
+                      $recipientID = $message->getRecipientID();
+                      echo 'Message to: ' .
+
+                           '<a href ="user.php?id=' . $recipientID . '">' .
+                           User::loadUserById($conn, $recipientID)->getUsername() .
+                           '</a>';
+
+                      echo '<p><b><em>' . $message->getMessage() . '</em></b></p>';
                   }
-              }
 
           }else{
-              echo '<h3>You haven\'t received or send any message </h3>';
+              echo '<h5>You haven\'t sent any message</h5>';
           }
 
         ?>
     </div>
 
-    <div id="sentMSG">
-
-    </div>
 
     </body>
     </html>

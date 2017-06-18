@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(isset($_SESSION['userID'])){
-    header('location: 1index.php');
+    header('location: index.php');
 }
 
 require_once 'src/User.php';
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <br>
                         <button type="submit" class="btn btn-default">Register</button>
                     </form><br>
-                <p>Already have account?<br> <a href="login.php">Log in here</a></p>
+                <p>Already have account?<br><br> <a href="login.php">Log in here</a></p>
                 <p><a href="index.php">Return to main page</a></p>
     </div>
 </div>

@@ -3,7 +3,7 @@ session_start();
 if (!isset($_SESSION['userID'])){
     header('Location: index.php');
 }else{
-    $currentUserID = $_SESSION['userID'];
+    $userID = $_SESSION['userID'];
 }
     require 'connection.php';
     require 'src/Tweet.php';
@@ -13,20 +13,21 @@ if (!isset($_SESSION['userID'])){
 
     $tweetID = $_GET['id'];
     $tweet = Tweet::loadTweetById($conn, $tweetID);
-    $userID = $tweet->getUserId();
+    $userOfTweetID = $tweet->getUserId();
 
-    $user = User::loadUserById($conn, $userID);
-    $userName = $user->getUsername();
+    $userOfTweet = User::loadUserById($conn, $userOfTweetID);
+$userOfTweetName = $userOfTweet->getUsername();
 
     $comments = Comment::loadAllCommentsByTweetID($conn, $tweetID);
 
-    $comments = array_reverse($comments);
-
+    if($comments!=null) {
+        $comments = array_reverse($comments);
+    }
 
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $comment = new Comment();
 
-        $comment->setUserID($currentUserID);
+        $comment->setUserID($userID);
         $comment->setTweetID($tweetID);
         $comment->setComment($_POST['comment']);
         $comment->setCreationDate(date('Y-m-d H:i:s'));
@@ -57,9 +58,9 @@ if (!isset($_SESSION['userID'])){
 
     echo '<div class="tweet">';
     //tweet
-    echo '<a href="user.php?id=' . $tweet->getUserId() . '">' . '<span class="glyphicon glyphicon-user"></span>' . $userName . ': </a><br>';
+    echo '<a href="user.php?id=' . $tweet->getUserId() . '">' . '<span class="glyphicon glyphicon-user"></span>' . $userOfTweetName . ': </a><br>';
 
-    echo '<em>' . $tweet->getText() . '</em><br>';
+    echo '<em><b>' . $tweet->getText() . '</b></em><br>';
 
     echo '<small>' . '<span class="glyphicon glyphicon-calendar"></span>' . $tweet->getCreationDate() . '</small>';
 
@@ -81,7 +82,6 @@ if (!isset($_SESSION['userID'])){
         foreach ($comments as $comment) {
 
             $commentID = $comment->getID();
-
             $userOfCommentID = $comment->getUserID();
             $userOfComment = User::loadUserById($conn, $userOfCommentID);
             $userOfCommentName = $userOfComment->getUsername();

@@ -21,15 +21,15 @@ require 'src/Comment.php';
 require 'src/Message.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if(isset($_POST['text'])) {
+    if(isset($_POST['text']) && $userID != null) {
 
         $tweet = new Tweet();
         $tweet->setUserId($_SESSION['userID']);
         $tweet->setText($_POST['text']);
         $tweet->setCreationDate(date('Y-m-d H:i:s'));
-
         $tweet->saveToDB($conn);
     }
+
 }
 ?>
 
