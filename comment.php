@@ -16,7 +16,7 @@ if (!isset($_SESSION['userID'])){
     $userOfTweetID = $tweet->getUserId();
 
     $userOfTweet = User::loadUserById($conn, $userOfTweetID);
-$userOfTweetName = $userOfTweet->getUsername();
+    $userOfTweetName = $userOfTweet->getUsername();
 
     $comments = Comment::loadAllCommentsByTweetID($conn, $tweetID);
 

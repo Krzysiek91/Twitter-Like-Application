@@ -1,6 +1,6 @@
 <?php
 $user = 'root';
-$password = 'coderslab';
+$password = '';
 $dbname = 'twitter';
 $dsn = "mysql:host=127.0.0.1; dbname=$dbname; charset=utf8";
 

@@ -28,7 +28,7 @@ if(!isset($_SESSION['userID'])){
 
         $message->saveToDB($conn);
 
-        $successMsg = 'Message has benn successfully sent';
+        $successMsg = 'Message has been successfully sent';
 
 
     }
@@ -88,9 +88,9 @@ include ('includes/nav.php');
         echo '<button type="submit" class="btn btn-basic">Send</button>';
         echo '</form>';
 
-      if (isset($successMessage)) {
+      if (isset($successMsg)) {
           echo '<div class="alert alert-success">';
-          echo $successMessage;
+          echo $successMsg;
           echo '</div>';
       }
       ?>
